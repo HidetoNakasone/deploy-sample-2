@@ -1,0 +1,33 @@
+
+<h1>ToDoリスト</h1>
+
+<div id="new_form">
+  <p>追加フォーム</p>
+  <form action="/new" method="POST">
+    タイトル(項目名)： <input type="text" name="title" required><br>
+    チェック：
+    <input type="radio" name="status" value="true">済み
+    <input type="radio" name="status" value="false" checked>未実行
+    <br>
+    <input type="submit">
+  </form>
+</div>
+
+<div id="res_wrap">
+  <% @res.each do |item| %>
+    <p>タイトル： <%= item['title'] %></p>
+    <p>ステータス：
+      <%=
+        if item['status'] == 't'
+          '○'
+        else
+          '✕'
+        end
+      %>
+    </p>
+    <% if item['creater_id'].to_i == session[:user_id] %>
+      <a href="/delete/<%= item['id'] %>">削除</a>
+      <a href="/edit/<%= item['id'] %>">編集</a>
+    <% end %>
+  <% end %>
+</div>

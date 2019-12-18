@@ -1,0 +1,17 @@
+
+<h1>編集ページ</h1>
+
+<form action="/edit" method="POST">
+  <input type="hidden" name="id" value="<%= @res['id'] %>">
+  タイトル(項目名)： <input type="text" name="title" value="<%= @res['title'] %>" required><br>
+  チェック：
+  <% if @res['status'] == 't' %>
+    <input type="radio" name="status" value="true" checked>済み
+    <input type="radio" name="status" value="false">未実行
+  <% else %>
+    <input type="radio" name="status" value="true">済み
+    <input type="radio" name="status" value="false" checked>未実行
+  <% end %>
+  <br>
+  <input type="submit">
+</form>

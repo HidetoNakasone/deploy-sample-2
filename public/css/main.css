@@ -1,0 +1,634 @@
+
+* {
+  padding: 0;
+  margin: 0;
+  box-sizing: border-box;
+  transition: 0.3s;
+}
+
+a {
+  color: white;
+}
+
+a:hover {
+  cursor: pointer;
+}
+
+html {
+  width: 100%;
+  height: 100%;
+}
+
+body {
+  width: 100%;
+  height: 100%;
+  font-family: 'Nunito', sans-serif;
+  color: white;
+  overflow: hidden;
+  display: grid;
+  grid-template-columns: 1fr;
+  /* gridの詳細は、各erbファイルにて記述している */
+}
+
+header {
+  grid-area: header;
+  position: relative;
+  top: 0;
+  left: 0;
+  width: 100%;
+  background: linear-gradient(90deg, #2D80C7, #3FBCE3);
+  border-radius: 0 0 30px 30px;
+  box-shadow: 0px 2px 8px 0px rgba(0, 0, 0, 0.16);
+  color: white;
+}
+
+#service-name {
+  position: absolute;
+  top: 50%;
+  left: 20px;
+  transform: translateY(-50%);
+  height: 32px;
+  width: 60%;
+  overflow: hidden;
+}
+
+#service-name p {
+  line-height: 34px;
+  width: 100%;
+  font-size: 3vmax;
+  font-weight: bold;
+}
+
+#sign-out-link {
+  position: absolute;
+  top: 50%;
+  right: 20px;
+  transform: translateY(-50%);
+  height: 49px;
+  overflow: hidden;
+}
+
+#sign-out-link p {
+  font-size: 1.5vmax;
+  line-height: 16px;
+  text-align: right;
+}
+
+#sign-out-link i {
+  font-size: 3vmax;
+  padding-top: 5px;
+  line-height: 28px;
+  width: 100%;
+  text-align: center;
+}
+
+#user-info-wrap {
+  grid-area: user-info-wrap;
+  width: 100%;
+  padding: 20px 14%;
+  position: relative;
+  display: grid;
+  grid-template-columns: 1fr;
+  grid-template-rows: 34px 1fr;
+  grid-template-areas:
+    "user-name"
+    "icon-image";
+
+}
+
+#user-info-wrap > p {
+  width: 100%;
+  grid-area: user-name;
+  font-size: 2vmax;
+  line-height: 34px;
+  font-weight: bold;
+  color: #B2B2B2;
+  overflow: hidden;
+}
+
+#user-info-wrap span {
+  display: block;
+  float: left;
+  max-width: 70%;
+  overflow: hidden;
+  padding-right: 5px;
+}
+
+#user-info-wrap p span {
+  font-size: 3.6vmax;
+  color: #f31d88;
+}
+
+#user-icon-image {
+  grid-area: icon-image;
+  margin-top: 16px;
+  width: 100%;
+  height: calc(100% - 24px);
+  border-radius: 10px;
+  box-shadow: 0px 3px 12px 0px rgba(40, 94, 114, 0.6);
+  overflow: hidden;
+}
+
+#user-icon-image img {
+  height: 100%;
+  width: 100%;
+  max-height: 100%;
+  max-width: 100%;
+  object-fit: cover;
+}
+
+.user-icon-image-loading::after {
+  content: "";
+  display: block;
+  position: absolute;
+  top: calc(20px + 34px + 16px);
+  left: 14%;
+  height: calc(100% - (20px + 34px + 16px + 24px) - 4px);
+  width: calc(100% - (14% * 2));
+
+  border-radius: 10px;
+  overflow: hidden;
+  background-color: rgba(255, 255, 255, 0.6);
+}
+
+#icon-edit-link {
+  position: absolute;
+  top: calc(20px + 34px + 16px - 15px);
+  right: calc(14% - 37px);
+  width: 74px;
+  height: 30px;
+  overflow: hidden;
+  background-color: rgba(255, 255, 255, 0.9);
+  border-radius: 8px;
+  box-shadow: 0px 0px 8px 0px rgba(0, 0, 0, 0.16);
+  padding: 5px 8px;
+  text-align: center;
+}
+
+#icon-edit-link label {
+  cursor: pointer;
+}
+
+#icon-edit-link p {
+  font-size: 18px;
+  line-height: 20px;
+  font-weight: bold;
+  color: #346EBE;
+  float: left;
+  padding-right: 7px;
+}
+
+#icon-edit-link i {
+  font-size: 15px;
+  line-height: 20px;
+  font-weight: bold;
+  color: #346EBE;
+}
+
+.loading-animation {
+  position: fixed;
+  top: calc(28%);
+  left: calc(50%);
+  background-color: rgba(255, 255, 255, 0.9);
+}
+
+.loading-animation > div {
+  position: absolute;
+  left: -50px;
+  top: -50px;
+
+  width: 100px;
+  height: 100px;
+
+  opacity: 0;
+  animation: loading-animation 1.6s 0s linear infinite;
+}
+
+@keyframes loading-animation {
+  0% {
+    transform: scale(0);
+  }
+  5% {
+    opacity: 1;
+  }
+  100% {
+    transform: scale(1);
+  }
+}
+
+.loading-animation > div {
+  background-color: rgb(38, 125, 10);
+  border-radius: 100%;
+}
+
+.loading-animation > div:nth-child(2) {
+  animation-delay: -.5s;
+}
+
+.loading-animation > div:nth-child(3) {
+  animation-delay: -.25s;
+}
+
+#res_wrap {
+  grid-area: res_wrap;
+  width: 78%;
+  /* なんか上手くCSS Gridの高さで固定されないので、、、無理やり。 */
+  height: calc((100vh - 150px)*0.50);
+  margin: 0 auto;
+  position: relative;
+}
+
+#res_wrap > p {
+  font-size: 4vmax;
+  line-height: 34px;
+  margin-bottom: 15px;
+  color: #346EBE;
+  font-weight: bold;
+  width: 100%;
+  text-align: center;
+}
+
+#res_contents {
+  width: 100%;
+  height: calc(100% - (34px + 15px));
+  overflow: scroll;
+  padding: 6px 0;
+}
+
+#no-data-msg {
+  padding-top: 30%;
+  width: 100%;
+  text-align: center;
+  color: #B2B2B2;
+}
+
+.res {
+  width: calc(100% - 12px);
+  height: 50px;
+  margin-left: 6px;
+  margin-bottom: 15px;
+  border-radius: 6px;
+  box-shadow: 0px 0px 6px 0px rgba(39, 76, 90, 0.3);
+  font-family: "M PLUS Rounded 1c";
+  position: relative;
+}
+
+.res .check-btn {
+  display: inline-block;
+  width: 24px;
+  height: 24px;
+  margin: 13px;
+  text-align: center;
+  border-radius: 50%;
+  background-color: white;
+  border: solid 2px rgba(145, 165, 195, 0.5);
+  float: left;
+}
+
+.res .checked-btn {
+  display: inline-block;
+  width: 24px;
+  height: 24px;
+  margin: 13px;
+  text-align: center;
+  border-radius: 50%;
+  background-color: rgba(70, 106, 118, 0.7);
+  border: solid 2px rgba(255, 255, 255, 0);
+  float: left;
+  position: relative;
+}
+
+.res .checked-btn i {
+  position: absolute;
+  top: -13px;
+  left: -12px;
+  font-size: 19px;
+  line-height: 19px;
+  text-align: center;
+  color: white;
+}
+
+.res p, .res strike {
+  width: calc(100% - 100px);
+  height: 50px;
+  font-size: 2.2vmax;
+  line-height: 50px;
+  font-weight: bold;
+  color: #346EBE;
+  float: left;
+  overflow-x: auto;
+  white-space: nowrap;
+}
+
+.res strike {
+  color: rgba(70, 106, 118, 0.7);
+}
+
+.res::after {
+  content: "";
+  display: block;
+  position: absolute;
+  top: 0;
+  right: 50px;
+  height: 100%;
+  width: 50px;
+  background: linear-gradient(90deg, rgba(255, 255, 255, 0), rgba(255, 255, 255, 1));
+  pointer-events: none;
+}
+
+.res i {
+  float: right;
+  width: 24px;
+  height: 24px;
+  font-size: 24px;
+  line-height: 24px;
+  margin: 13px;
+  text-align: center;
+  color: #346EBE;
+}
+
+.res .times-btn {
+  color: rgba(70, 106, 118, 0.7);
+}
+
+#res_contents::after {
+  content: "";
+  display: block;
+  position: absolute;
+  bottom: 0;
+  height: 100px;
+  width: 100%;
+  background: linear-gradient(rgba(255, 255, 255, 0), rgba(255, 255, 255, 1));
+  pointer-events: none;
+}
+
+#add-btn-wrap {
+  grid-area: add-btn-wrap;
+  width: 100%;
+  padding-top: 2%;
+}
+
+#add-btn {
+  display: block;
+  width: 50%;
+  height: 34px;
+  margin: auto;
+  border: none;
+  border-radius: 17px;
+  background-color: #EDB44A;
+  box-shadow: 0px 3px 8px 0px rgba(0, 0, 0, 0.16);
+  color: white;
+  font-size: 2.2vmax;
+  line-height: 2.2vmax;
+  padding: 3px 18px;
+}
+
+#add-btn:hover {
+  cursor: pointer;
+}
+
+#add-btn i {
+  float: left;
+}
+
+/* == こっからhello.erb == */
+
+#creater-info {
+  position: absolute;
+  top: 50%;
+  right: 20px;
+  transform: translateY(-50%);
+  height: 100%;
+  padding: 10px 0;
+}
+
+#creater-info p {
+  font-size: 1.7vmax;
+  float: left;
+  line-height: 40px;
+  padding-right: 8px;
+}
+
+#creater-info img {
+  height: 100%;
+  border-radius: 100px;
+}
+
+#welcome-wrap {
+  grid-area: welcome-wrap;
+  width: 100%;
+  font-size: 4.5vmax;
+  font-weight: bold;
+  color: #346EBE;
+  text-align: center;
+  padding-top: 20%;
+  height: 100%;
+  /* overflow: hidden; */
+}
+
+#welcome-wrap p:nth-child(1) {
+  font-size: 6.5vmax;
+  padding-bottom: 50px;
+}
+
+#btns-wrap {
+  grid-area: btns-wrap;
+  height: 100%;
+  width: 100%;
+  padding: 0 12%;
+  overflow: hidden;
+}
+
+#btns-wrap button {
+  width: 100%;
+  height: 44px;
+  border: none;
+  border-radius: 22px;
+  margin-top: 32px;
+  font-family: 'Nunito', sans-serif;
+  font-size: 3vmax;
+  font-weight: bold;
+  color: white;
+  box-shadow: 0px 2px 8px 0px rgba(0, 0, 0, 0.16);
+}
+
+#btns-wrap button:hover {
+  cursor: pointer;
+}
+
+#sign-in-btn {
+  background-color: #3989C4;
+}
+
+#sign-up-btn {
+  background-color: #C3436A;
+}
+
+#message-wrap {
+  width: 100%;
+  grid-area: message-wrap;
+  padding: 0 55px;
+  font-size: 2.8vmax;
+  text-align: center;
+  color: rgba(70, 106, 118, 0.7);
+}
+
+#message-wrap a {
+  font-weight: bold;
+  text-decoration: none;
+}
+
+#qiita-link {
+  color: rgba(92, 178, 16, 0.7);
+}
+
+/* == こっからsignin.erb == */
+
+#page-title-wrap {
+  grid-area: page-title-wrap;
+  width: 100%;
+  font-size: 2.8vmax;
+  font-weight: bold1;
+  text-align: center;
+  padding: 30% 0;
+  height: 100%;
+  overflow: hidden;
+}
+
+#singin-title {
+  color: #346EBE;
+}
+
+#form-wrap {
+  grid-area: form-wrap;
+  height: 100%;
+  min-height: 300px;
+  width: 100%;
+  padding: 0 20%;
+  overflow: hidden;
+}
+
+#form-wrap input {
+  margin-bottom: 30px;
+  width: 100%;
+  height: 36px;
+  border-radius: 12px;
+  background-color: rgba(255, 255, 255, 0);
+  font-family: 'Nunito', sans-serif;
+  padding: 6px 0;
+  text-align: center;
+  font-size: 2.6vmax;
+  font-weight: bold;
+  color: rgb(61, 61, 61)
+}
+
+.singin-form input {
+  border: solid 2px #5089B4;
+}
+
+#form-wrap input:focus {
+  outline: none;
+  border-width: 4px;
+}
+
+#form-wrap input::placeholder {
+  font-weight: bold;
+  color: rgba(40, 94, 114, 0.33);
+}
+
+#form-wrap input[type=submit] {
+  padding: 0;
+  width: 34%;
+  margin-left: 33%;
+  border-radius: 18px;
+  color: white;
+  box-shadow: 0px 2px 8px 0px rgba(39, 76, 90, 0.3);
+  border: none;
+}
+
+.singin-form input[type=submit] {
+  background-color: #3E88C4 !important;
+}
+
+#signin-link {
+  color: #346EBE;
+}
+
+/* == こっからsignup.erb == */
+
+#singup-title {
+  color: #C2426A;
+}
+
+.singup-form input {
+  border: solid 2px #AF4364;
+}
+
+.singup-form input[type=submit] {
+  background-color: #C2426A !important;
+}
+
+#signup-link {
+  color: #C2426A;
+}
+
+@media screen and (min-width: 420px) {
+  body {
+    width: 420px;
+    grid-template-columns: 420px;
+    margin-left: calc(50vw - 210px);
+    box-shadow: 0px 0px 14px 0px rgba(0, 0, 0, 0.15);
+  }
+  header {
+    width: 420px;
+  }
+  #service-name p {
+    font-size: 30px;
+  }
+  #sign-out-link p {
+    font-size: 15px;
+  }
+  #sign-out-link i {
+    font-size: 26px;
+  }
+  #user-info-wrap p {
+    font-size: 18px;
+  }
+  #user-info-wrap p span {
+    font-size: 32px;
+  }
+  #res_wrap > p {
+    font-size: 38px;
+  }
+  .res p, .res strike {
+    font-size: 22px;
+  }
+  #add-btn-wrap {
+    padding-top: 6px;
+  }
+  #add-btn {
+    font-size: 20px;
+    line-height: 20px;
+  }
+  #creater-info p {
+    font-size: 17px;
+  }
+  #welcome-wrap {
+    font-size: 40px;
+  }
+  #welcome-wrap p:nth-child(1) {
+    font-size: 50px;
+  }
+  #btns-wrap button {
+    font-size: 30px;
+  }
+  #message-wrap {
+    font-size: 25px;
+  }
+  #page-title-wrap {
+    font-size: 30px;
+  }
+  #form-wrap input {
+    font-size: 24px;
+  }
+}

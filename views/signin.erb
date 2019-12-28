@@ -1,10 +1,27 @@
+<style>
+  body {
+    grid-template-rows: 60px  45fr 55fr 20fr;
+    grid-template-areas:
+    "header"
+    "page-title-wrap"
+    "form-wrap"
+    "message-wrap";
+  }
+</style>
 
-<h1>SignInページ</h1>
+<div id="page-title-wrap">
+  <h1 id="singin-title">SignIn</h1>
+</div>
 
-<form action="/signin" method="POST">
-  ユーザー名： <input type="text" name="name" required>
-  パスワード： <input type="password" name="pass" required>
-  <input type="submit" value="サインイン">
-</form>
+<div id="form-wrap" class="singin-form">
+  <form action="/signin" method="POST">
+    <input type="text" name="name" placeholder="User Name" onclick="form_input(this)" required><br>
+    <input type="password" name="pass" placeholder="Pass Word" onclick="form_input(this)" required><br>
+    <input type="submit" value="Go">
+  </form>
+</div>
 
-<a href="/signup">新規登録へ</a>
+<div id="message-wrap">
+  <p>初めて利用される方は、</p>
+  <p><a id="signup-link" href="/signup">SingUp</a> して下さい。</p>
+</div>

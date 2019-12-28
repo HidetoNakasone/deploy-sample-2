@@ -4,9 +4,32 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <link href="https://fonts.googleapis.com/css?family=Nunito&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css?family=M+PLUS+Rounded+1c" rel="stylesheet">
+  <link rel="stylesheet" href="/css/all.css">
+  <link rel="stylesheet" href="/css/main.css">
   <title>Heroku-Deploy-Sample-2</title>
 </head>
 <body>
+  <script src="/js/main.js"></script>
+  <header>
+    <div id="service-name">
+      <p>ToDo - App</p>
+    </div>
+    <% unless session[:user_id].nil? %>
+      <a href="/signout">
+        <div id="sign-out-link">
+          <p>SignOut</p>
+          <i class="fas fa-sign-out-alt"></i>
+        </div>
+      </a>
+    <% else %>
+      <div id="creater-info">
+        <p>Created by</p>
+        <img src="/images/creater_logo.jpg">
+      </div>
+    <% end %>
+  </header>
   <%= yield %>
 </body>
 </html>

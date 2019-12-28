@@ -1,33 +1,75 @@
+<style>
+  body {
+    grid-template-rows: 60px  50fr 50fr 80px;
+    grid-template-areas:
+    "header"
+    "user-info-wrap"
+    "res_wrap"
+    "add-btn-wrap";
+  }
+</style>
 
-<h1>ToDoリスト</h1>
-
-<div id="new_form">
-  <p>追加フォーム</p>
-  <form action="/new" method="POST">
-    タイトル(項目名)： <input type="text" name="title" required><br>
-    チェック：
-    <input type="radio" name="status" value="true">済み
-    <input type="radio" name="status" value="false" checked>未実行
-    <br>
-    <input type="submit">
+<div id="user-info-wrap">
+  <p><span><%= session[:user_name]%></span>'s Page.</p>
+  <div id="user-icon-image">
+    <!-- <img id="preview" src="/images/user_icon/<%= session[:user_id].to_s %>.jpg?hoge=<%= Time.now() %>"> -->
+    <img id="preview" src="/images/user_icon/<%= session[:user_id].to_s %>.jpg" onerror="this.src='/images/user_icon/default.png';">
+  </div>
+  <form id="icon-edit-link" action="/icon_image" method="POST" enctype="multipart/form-data">
+    <label for="up-img">
+      <p>Edit</p>
+      <i class="fas fa-edit"></i>
+    </label>
+    <input id="up-img" type="file" onchange="previewFile()" hidden>
   </form>
 </div>
 
+<div id="loading-target">
+  <div></div>
+  <div></div>
+  <div></div>
+  <div></div>
+</div>
+
 <div id="res_wrap">
-  <% @res.each do |item| %>
-    <p>タイトル： <%= item['title'] %></p>
-    <p>ステータス：
-      <%=
-        if item['status'] == 't'
-          '○'
-        else
-          '✕'
-        end
-      %>
-    </p>
-    <% if item['creater_id'].to_i == session[:user_id] %>
-      <a href="/delete/<%= item['id'] %>">削除</a>
-      <a href="/edit/<%= item['id'] %>">編集</a>
+  <p>Lists</p>
+  <div id="res_contents">
+    <% if @res.to_a.length == 0 %>
+      <p id="no-data-msg">表示する中身がありません。<br>下のAddボタンより登録して下さい。</p>
+    <% else %>
+      <% @res.each do |item| %>
+        <div class="res">
+          <% if item['status'] == 't' %>
+            <a href="/check_edit?id=<%= item['id'] %>">
+              <button class="checked-btn">
+                <i class="fas fa-check"></i>
+              </button>
+            </a>
+            <strike><%= item['title'] %>&emsp;</strike>
+            <a href="/delete/<%= item['id'] %>">
+              <i class="fas fa-times-circle times-btn"></i>
+            </a>
+          <% else %>
+            <a href="/check_edit?id=<%= item['id'] %>">
+              <button class="check-btn"></button>
+            </a>
+            <p><%= item['title'] %>&emsp;</p>
+            <!-- <a href="/edit/<%= item['id'] %>"> -->
+              <i class="fas fa-edit" onclick="edit(<%= item['id'] %>, '<%= item['title'] %>')"></i>
+            <!-- </a> -->
+          <% end %>
+        </div>
+      <% end %>
     <% end %>
-  <% end %>
+    <br>
+    <br>
+    <br>
+  </div>
+</div>
+
+<div id="add-btn-wrap">
+  <button id="add-btn" onclick="add_item()">
+    <i class="fas fa-plus"></i>
+    <p>Add New Task</p>
+  </button>
 </div>

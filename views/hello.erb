@@ -1,0 +1,35 @@
+<style>
+  body {
+    grid-template-rows: 60px  55fr 45fr 20fr;
+    grid-template-areas:
+    "header"
+    "welcome-wrap"
+    "btns-wrap"
+    "message-wrap";
+  }
+</style>
+
+<div id="welcome-wrap">
+  <p>Hello.</p>
+  <p>Welcome to</p>
+  <p>"ToDo - App".</p>
+</div>
+
+<div id="btns-wrap">
+  <a href="/signin">
+    <button id="sign-in-btn">
+      <p>SignIn</p>
+    </button>
+  </a>
+  <a href="/signup">
+    <button id="sign-up-btn">
+      <p>SignUp</p>
+    </button>
+  </a>
+</div>
+
+<div id="message-wrap">
+  <p>このAppの詳細は</p>
+  <p>こちらの <a id="qiita-link" href="#">Qiita</a> 記事へ。</p>
+</div>
+

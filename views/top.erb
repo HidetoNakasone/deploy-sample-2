@@ -13,7 +13,8 @@
   <p><span><%= session[:user_name]%></span>'s Page.</p>
   <div id="user-icon-image">
     <!-- <img id="preview" src="/images/user_icon/<%= session[:user_id].to_s %>.jpg?hoge=<%= Time.now() %>"> -->
-    <img id="preview" src="/images/user_icon/<%= session[:user_id].to_s %>.jpg" onerror="this.src='/images/user_icon/default.png';">
+    <img id="preview" src="https://deploy-sample-2.s3.us-east-2.amazonaws.com/images/user_icon/<%= session[:user_id].to_s %>.jpg" onerror="this.src='/images/user_icon/default.png';">
+    <!-- <img id="preview" src="/images/user_icon/<%= session[:user_id].to_s %>.jpg" onerror="this.src='/images/user_icon/default.png';"> -->
   </div>
   <form id="icon-edit-link" action="/icon_image" method="POST" enctype="multipart/form-data">
     <label for="up-img">

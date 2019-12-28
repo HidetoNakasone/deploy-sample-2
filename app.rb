@@ -4,13 +4,29 @@ Bundler.require
 
 if development?
   require 'sinatra/reloader'
+  require 'dotenv'
+  Dotenv.load ".env"
 end
 
 enable :sessions
 
+# AWS S3 への接続クライアント
+def s3
+  @s3 ||= Aws::S3::Client.new(
+    :region => 'us-east-2',
+    :access_key_id => ENV['AWS_S3_ACCESS_KEY_ID'],
+    :secret_access_key => ENV['AWS_S3_SECRET_ACCESS_KEY']
+  )
+end
+
 def db
-  @db ||= PG.connect(
-    dbname: 'heroku_deploy_sample_2'
+  uri = URI.parse(ENV['DATABASE_URL'])
+  @client ||= PG::connect(
+    host: uri.hostname,
+    dbname: uri.path[1..-1],
+    user: uri.user,
+    port: uri.port,
+    password: uri.password
   )
 end
 
@@ -105,6 +121,24 @@ end
 
 post '/icon_image' do
   signin_check()
-  FileUtils.mv(params[:up_image][:tempfile], "./public/images/user_icon/#{session[:user_id].to_s}.jpg")
+
+  # FileUtils.mv(params[:up_image][:tempfile], "./public/images/user_icon/#{session[:user_id].to_s}.jpg")
+
+  object_key = "images/user_icon/#{session[:user_id].to_s}.jpg"
+  # 保存処理
+  s3.put_object(
+    bucket: ENV['AWS_S3_BUCKET'],
+    key: object_key,
+    body: params[:up_image][:tempfile],
+    content_type: "image/jpegput",
+    metadata: {}
+  )
+  # アクセスを公開に設定する
+  s3.put_object_acl({
+    acl: "public-read",
+    bucket: ENV['AWS_S3_BUCKET'],
+    key: object_key,
+  })
+
   'ok'.to_json
 end
